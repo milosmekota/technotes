@@ -6,8 +6,8 @@ const path = require("path");
 const { logger, logEvents } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const corsOptions = require("./config/corsOptions");
+// const cors = require("cors");
+// const corsOptions = require("./config/corsOptions");
 const connectDB = require("./config/dbConn");
 const mongoose = require("mongoose");
 
@@ -20,7 +20,14 @@ connectDB();
 app.use(logger);
 
 // app.use(cors());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // Povolit všechny originy
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE"); // Povolit všechny metody
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization"); // Povolit určité hlavičky
+  next(); // Přejít na další middleware nebo route handler
+});
 
 app.use(express.json());
 
