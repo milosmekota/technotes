@@ -1,5 +1,4 @@
 const allowedOrigins = [
-  "https://technotes-hck0.onrender.com/login",
   "https://technotes-hck0.onrender.com/",
   "https://technotes-api-s6py.onrender.com/",
 ];

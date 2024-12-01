@@ -2,8 +2,8 @@ const allowedOrigins = require("./allowedOrigins");
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Povolit originy v seznamu nebo požadavky bez originu (např. z Postmanu)
-    if (allowedOrigins.includes(origin) || !origin) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      // Povolit požadavky bez originu (např. Postman) nebo z povolených originů
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));

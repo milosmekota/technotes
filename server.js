@@ -14,23 +14,40 @@ const PORT = process.env.PORT || 3500;
 
 console.log(process.env.NODE_ENV);
 
+// Připojení k databázi
 connectDB();
 
+// Middleware pro logování
 app.use(logger);
 
+// Middleware pro CORS
 app.use(cors(corsOptions));
 
-app.use(express.json());
+// Middleware pro OPTIONS požadavky (preflight)
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.sendStatus(200); // OK status
+});
 
+// Middleware pro zpracování JSON a cookies
+app.use(express.json());
 app.use(cookieParser());
 
+// Static files
 app.use("/", express.static(path.join(__dirname, "public")));
 
+// Definice rout
 app.use("/", require("./routes/root"));
 app.use("/auth", require("./routes/authRoutes"));
 app.use("/users", require("./routes/userRoutes"));
 app.use("/notes", require("./routes/noteRoutes"));
 
+// Handler pro neexistující routy
 app.all("*", (req, res) => {
   res.status(404);
   if (req.accepts("html")) {
@@ -42,8 +59,10 @@ app.all("*", (req, res) => {
   }
 });
 
+// Middleware pro zpracování chyb
 app.use(errorHandler);
 
+// Připojení k MongoDB a spuštění serveru
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
