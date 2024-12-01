@@ -34,6 +34,13 @@ app.options("*", (req, res) => {
   res.sendStatus(200); // OK status
 });
 
+app.use((req, res, next) => {
+  console.log(
+    `Request Method: ${req.method}, Request Origin: ${req.headers.origin}`
+  );
+  next();
+});
+
 // Middleware pro zpracování JSON a cookies
 app.use(express.json());
 app.use(cookieParser());
