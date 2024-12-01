@@ -1,8 +1,7 @@
 const corsOptions = {
-  origin: "*", // Povolí všechny origins
+  origin: "*", // Frontend URL
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 module.exports = corsOptions;
