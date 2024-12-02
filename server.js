@@ -24,7 +24,10 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(
+  cors({ credentials: true, origin: "https://technotes-hck0.onrender.com/" })
+);
 
 app.use(express.json());
 
